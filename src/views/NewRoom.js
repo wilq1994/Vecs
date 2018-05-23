@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components';
 
+import { Link } from "react-router-dom";
+
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 
@@ -59,10 +61,15 @@ export class NewRoom extends Component {
     }
 
     this.changeName = this.changeName.bind(this);
+    this.createRoom = this.createRoom.bind(this);
   }
 
   changeName(event){
     this.setState({ name: event.target.value });
+  }
+
+  createRoom(){
+    this.props.history.push('/room');
   }
 
   render() {
@@ -74,7 +81,7 @@ export class NewRoom extends Component {
           <Logo><img src="img/logo.png" alt="Vecs"/></Logo>
           <Heading>Nowy pokój</Heading>
           <Input label="Nazwa:" change={ this.changeName } required/>
-          <Button block disabled={ name === '' }>Stwórz</Button>
+          <Button block disabled={ name === '' } onClick={ this.createRoom }>Stwórz</Button>
         </Box>
         <Copyright>Bartosz Wilk © 2018</Copyright>
       </Layout>
