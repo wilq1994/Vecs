@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import NewRoom from './views/NewRoom';
+import JoinRoom from './views/JoinRoom';
+import Room from './views/Room';
+
 ReactDOM.render(
-  <h1>Hello Vecs!</h1>,
+  <Room></Room>,
   document.getElementById('root')
 );
