@@ -28,7 +28,16 @@ const initialState  = {
       hue: 80,
       active: false
     }
-  ]
+  ],
+  modal: {
+    visible: false,
+    title: null,
+    content: null,
+    closeButton: true,
+    cancelButton: true,
+    buttonValue: null,
+    buttonAction: null
+  }
 }
 
 function App(state = initialState, action) {

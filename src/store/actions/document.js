@@ -1,7 +1,18 @@
-export const SET_DOCUMENT_NAME = 'SET_DOCUMENT_NAME';
 export const CREATE_DOCUMENT = 'CREATE_DOCUMENT';
+export const SET_DOCUMENT_NAME = 'SET_DOCUMENT_NAME';
 export const SET_DOCUMENT_DIMENSIONS = 'SET_DOCUMENT_DIMENSIONS';
+export const NEW_FILE = 'NEW_FILE';
+export const LOAD_FILE = 'LOAD_FILE';
+export const SAVE_AS_PNG = 'SAVE_AS_PNG';
+export const SAVE_AS_SVG = 'SAVE_AS_SVG';
+export const SAVE_TO_CLOUD = 'SAVE_TO_CLOUD';
 
+
+export function createDocument(){
+  return {
+    type: CREATE_DOCUMENT
+  }
+}
 
 export function setDocumentName(name) {
   return {
@@ -10,16 +21,46 @@ export function setDocumentName(name) {
   }
 }
 
-export function createDocument(){
-  return {
-    type: CREATE_DOCUMENT
-  }
-}
-
 export function setDocumentDimensions(width, height) {
   return {
     type: SET_DOCUMENT_DIMENSIONS,
     width,
     height
+  }
+}
+
+export function newFile(width, height) {
+  return {
+    type: NEW_FILE,
+    width,
+    height
+  }
+}
+
+export function loadFile(file) {
+  return {
+    type: LOAD_FILE,
+    file
+  }
+}
+
+export function saveDocumentAsPNG(background){
+  return {
+    type: SAVE_AS_PNG,
+    background
+  }
+}
+
+export function saveDocumentAsSVG(minification, seperateStyles){
+  return {
+    type: SAVE_AS_SVG,
+    minification,
+    seperateStyles
+  }
+}
+
+export function saveDocumentToCloud(){
+  return {
+    type: SAVE_TO_CLOUD
   }
 }

@@ -1,5 +1,6 @@
 export const JOIN_MEMBER = 'JOIN_MEMBER';
 export const CHANGE_MEMBER_ACTIVITY = 'CHANGE_MEMBER_ACTIVITY';
+export const LEAVE_MEMBER = 'LEAVE_MEMBER';
 
 
 export function joinMember(member) {
@@ -7,8 +8,7 @@ export function joinMember(member) {
     type: JOIN_MEMBER,
     member: {
       name: member.name,
-      hue: member.hue,
-      active: true
+      hue: member.hue
     }
   }
 }
@@ -18,5 +18,12 @@ export function changeMemberActivity(id, active) {
     type: CHANGE_MEMBER_ACTIVITY,
     id,
     active
+  }
+}
+
+export function leaveMember(id) {
+  return {
+    type: LEAVE_MEMBER,
+    id
   }
 }
