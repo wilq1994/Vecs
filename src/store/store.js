@@ -1,17 +1,32 @@
 import { createStore } from 'redux';
 
 const initialState  = {
+  document: {
+    name: 'Siusiaki',
+    width: 500,
+    height: 500
+  },
   user: {
     name: 'wilq',
     hue: 15,
     active: true,
     isAuthenticated: true
   },
-  users: [
+  members: [
     {
       name: 'Vlad',
       hue: 160,
       active: true
+    },
+    {
+      name: 'Michał',
+      hue: 40,
+      active: false
+    },
+    {
+      name: 'Tomasz',
+      hue: 80,
+      active: false
     }
   ]
 }
