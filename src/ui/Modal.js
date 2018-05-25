@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+
+import { closeModal } from '../store/actions/modal';
 
 import Button from './Button';
 
@@ -98,15 +101,42 @@ const CloseButton = styled.button`
   }
 `;
 
-const Modal = ({ title, children }) => (
-  <Overlay>
-    <Content>
-      <CloseButton></CloseButton>
-      <Head><h1>{ title }</h1></Head>
-      <Body>{ children }</Body>
-      <Footer><Button>OK</Button><Button text>Anuluj</Button></Footer>
-    </Content>
-  </Overlay>
-)
+const Modal = ({ visible, title, content, closeButton, cancelButton, confirmButton, buttonAction, close }) => {
+  return visible ? (
+    <Overlay>
+      <Content>
+        { closeButton && <CloseButton onClick={ close.bind(this) }></CloseButton> }
+        <Head><h1>{ title }</h1></Head>
+        <Body>{ content }</Body>
+        { 
+          confirmButton && 
+          <Footer>
+            <Button>{ confirmButton }</Button>
+            { cancelButton && <Button text onClick={ close.bind(this) }>Anuluj</Button> }
+          </Footer>
+        }
+      </Content>
+    </Overlay>
+  ) : null;
+};
 
-export default Modal;
+const mapStateToProps = state => {
+  const { visible, title, content, closeButton, cancelButton, confirmButton, buttonAction } = state.modal;
+  return {
+    visible,
+    title,
+    content,
+    closeButton,
+    cancelButton,
+    confirmButton,
+    buttonAction
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  close: () => {
+    dispatch(closeModal());
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);

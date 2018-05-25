@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+
+import { openModal } from '../store/actions/modal';
 
 const List = styled.div`
   display: flex;
@@ -43,15 +46,29 @@ const Button = styled.button`
   }
 `;
 
-const FileOperations = () => (
+const FileOperations = ({ clickButton }) => (
   <List>
-    <Button><span>Nowy plik</span></Button>
-    <Button><span>Wczytaj plik</span></Button>
-    <Button><span>Zapisz jako PNG</span></Button>
-    <Button><span>Zapisz jako SVG</span></Button>
-    <Button><span>Zapisz w chmurze</span></Button>
-    <Button><span>Kod</span></Button>
+    <Button onClick={ clickButton.bind(this, 'Nowy plik', 'Content', true, true, null, null) }><span>Nowy plik</span></Button>
+    <Button onClick={ clickButton.bind(this, 'Wczytaj plik', 'Content', true, true, 'Confirm', null) }><span>Wczytaj plik</span></Button>
+    <Button onClick={ clickButton.bind(this, 'Zapisz jako PNG', 'Content', true, true, 'Confirm', null) }><span>Zapisz jako PNG</span></Button>
+    <Button onClick={ clickButton.bind(this, 'Zapisz jako SVG', 'Content', true, true, 'Confirm', null) }><span>Zapisz jako SVG</span></Button>
+    <Button onClick={ clickButton.bind(this, 'Zapisz w chmurze', 'Content', true, true, 'Confirm', null) }><span>Zapisz w chmurze</span></Button>
+    <Button onClick={ clickButton.bind(this, 'Kod', 'Content', true, true, 'Confirm', null) }><span>Kod</span></Button>
   </List>
 )
 
-export default FileOperations;
+const mapDispathToProps = dispath => ({
+  clickButton: (title, content, closeButton, cancelButton, confirmButton, buttonAction) => {
+    dispath(openModal({
+      visible: true,
+      title,
+      content,
+      closeButton,
+      cancelButton,
+      confirmButton,
+      buttonAction
+    }))
+  }
+})
+
+export default connect(null, mapDispathToProps)(FileOperations);

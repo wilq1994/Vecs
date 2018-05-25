@@ -27,12 +27,7 @@ const Room = () => (
       <Elements/>
       <Properties/>
     </Layout>
-    {
-      false &&
-      <Modal title='Tytuł'>
-        Treść
-      </Modal>
-    }
+    <Modal/>
   </React.Fragment>
 );
 

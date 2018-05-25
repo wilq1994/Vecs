@@ -6,7 +6,7 @@ const initialModal = {
   content: null,
   closeButton: null,
   cancelButton: null,
-  buttonValue: null,
+  confirmButton: null,
   buttonAction: null
 };
 
@@ -16,7 +16,7 @@ export default (state = initialModal, action) => {
       return initialModal;  
 
     case OPEN_MODAL:
-      if(!modal) return state;
+      if(!action.modal) return state;
       return Object.assign({}, state, action.modal);
     
     default:
