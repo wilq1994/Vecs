@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
-import { Link } from "react-router-dom";
+import { setDocumentName } from '../store/actions/document';
 
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -59,17 +60,16 @@ export class NewRoom extends Component {
     this.state = {
       name: ''
     }
-
-    this.changeName = this.changeName.bind(this);
-    this.createRoom = this.createRoom.bind(this);
   }
 
   changeName(event){
     this.setState({ name: event.target.value });
   }
 
-  createRoom(){
-    this.props.history.push('/room');
+  createRoom(event){
+    event.preventDefault();
+    this.props.dispatch(setDocumentName(this.state.name));
+    this.props.history.push('/new');
   }
 
   render() {
@@ -78,10 +78,12 @@ export class NewRoom extends Component {
     return (
       <Layout>
         <Box>
-          <Logo><img src="img/logo.png" alt="Vecs"/></Logo>
-          <Heading>Nowy pokój</Heading>
-          <Input label="Nazwa:" change={ this.changeName } required/>
-          <Button block disabled={ name === '' } onClick={ this.createRoom }>Stwórz</Button>
+          <form onSubmit={ this.createRoom.bind(this) }>
+            <Logo><img src="img/logo.png" alt="Vecs"/></Logo>
+            <Heading>Nowy pokój</Heading>
+            <Input label="Nazwa:" change={ this.changeName.bind(this) } required/>
+            <Button block disabled={ name === '' }>Stwórz</Button>
+          </form>
         </Box>
         <Copyright>Bartosz Wilk © 2018</Copyright>
       </Layout>
@@ -89,4 +91,4 @@ export class NewRoom extends Component {
   }
 }
 
-export default NewRoom; 
+export default connect()(NewRoom); 
