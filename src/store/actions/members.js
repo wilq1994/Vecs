@@ -7,6 +7,7 @@ export function joinMember(member) {
   return {
     type: JOIN_MEMBER,
     member: {
+      id: member.id,
       name: member.name,
       hue: member.hue
     }
