@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import FileOperations from './FileOperations';
-import Users from './Users';
+import Members from './Members';
 
 const Bar = styled.div`
   background: #fff;
@@ -23,7 +23,7 @@ const TopBar = () => (
   <Bar>
     <Logo src="img/logo.png" alt="Vecs"/>
     <FileOperations/>
-    <Users/>
+    <Members/>
   </Bar>
 )
 

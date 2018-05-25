@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import Avatar from './Avatar';
 
@@ -28,13 +29,20 @@ const List = styled.div`
   }
 `;
 
-const Users = () => (
+const Members = ({ user, members }) => (
   <List>
-    <Avatar login="Tomek" hue={ 16 }/>
-    <Avatar login="Vlad" hue={ 106 } inactive/>
-    <Avatar login="Mateusz" hue={ 186 }/>
-    <Avatar login="Wilq" hue={ 46 } speak/>
+    {
+      members.map((item, id) => (
+        <Avatar key={ id } login={ item.name } hue={ item.hue } inactive={ !item.active } speak={ item.speak }/>
+      ))
+    }
+    <Avatar login={ user.name } hue={ user.hue } speak={ user.speak }/>
   </List>
 )
 
-export default Users;
+const mapStateToProps = state => ({
+  user: state.user,
+  members: state.members
+});
+
+export default connect(mapStateToProps)(Members);
