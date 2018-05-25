@@ -30,6 +30,7 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route exact path="/" component={NewRoom} />
+        <Route path="/new" component={ JoinRoom } />
         <Route path="/:room" render={ withRouter(connect(mapStateToProps)(RoomRoute)) } />
       </Switch>
     </Router>
