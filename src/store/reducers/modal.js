@@ -13,9 +13,12 @@ const initialModal = {
 export default (state = initialModal, action) => {
   switch (action.type) {
     case CLOSE_MODAL:
-      
+      return initialModal;  
+
     case OPEN_MODAL:
-      
+      if(!modal) return state;
+      return Object.assign({}, state, action.modal);
+    
     default:
       return state;
   }
