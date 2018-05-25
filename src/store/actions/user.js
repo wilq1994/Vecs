@@ -1,20 +1,17 @@
 export const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
-export const CHANGE_USER_ACTIVITY = 'CHANGE_USER_ACTIVITY';
+export const USER_AUTHENTICATED = 'USER_AUTHENTICATED';
 
 
-export function authenticateUser(name, hue) {
+export function authenticateUser(user) {
   return {
     type: AUTHENTICATE_USER,
-    user: {
-      name,
-      hue
-    }
+    user
   }
 }
 
-export function changeUserActivity(active) {
+export function userAuthenticated(user) {
   return {
-    type: CHANGE_USER_ACTIVITY,
-    active
+    type: USER_AUTHENTICATED,
+    user
   }
 }
