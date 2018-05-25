@@ -1,10 +1,10 @@
-export const AUTHENTICATE = 'AUTHENTICATE';
-export const CHANGE_ACTIVITY = 'CHANGE_ACTIVITY';
+export const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
+export const CHANGE_USER_ACTIVITY = 'CHANGE_USER_ACTIVITY';
 
 
 export function authenticateUser(name, hue) {
   return {
-    type: AUTHENTICATE,
+    type: AUTHENTICATE_USER,
     user: {
       name,
       hue
@@ -14,7 +14,7 @@ export function authenticateUser(name, hue) {
 
 export function changeUserActivity(active) {
   return {
-    type: CHANGE_ACTIVITY,
+    type: CHANGE_USER_ACTIVITY,
     active
   }
 }

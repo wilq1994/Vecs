@@ -1,48 +1,17 @@
-import { createStore } from 'redux';
+import { combineReducers, createStore } from 'redux';
 
-const initialState  = {
-  document: {
-    name: 'Siusiaki',
-    width: 500,
-    height: 500
-  },
-  user: {
-    name: 'wilq',
-    hue: 15,
-    active: true,
-    isAuthenticated: true
-  },
-  members: [
-    {
-      name: 'Vlad',
-      hue: 160,
-      active: true
-    },
-    {
-      name: 'Michał',
-      hue: 40,
-      active: false
-    },
-    {
-      name: 'Tomasz',
-      hue: 80,
-      active: false
-    }
-  ],
-  modal: {
-    visible: false,
-    title: null,
-    content: null,
-    closeButton: true,
-    cancelButton: true,
-    buttonValue: null,
-    buttonAction: null
-  }
+import document from './reducers/document';
+import members from './reducers/members';
+import user from './reducers/user';
+import modal from './reducers/modal';
+
+const reducers = {
+  document,
+  members,
+  user,
+  modal
 }
 
-function App(state = initialState, action) {
-  return state;
-}
-
+const App = combineReducers(reducers);
 
 export default createStore(App, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

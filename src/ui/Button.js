@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Button = styled.button`
-  background: ${props => props.text ? 'none' : 'var(--orange)' };
+  background: ${props => props.text ? 'none' : 'var(--orange)'};
   color: hsla(33, 100%, 25%, 1);
   font-weight: 500;
   line-height: 3.75rem;
@@ -11,9 +11,9 @@ const Button = styled.button`
   border-radius: 5px;
   border: 0;
   cursor: pointer;
-  box-shadow: ${ props => props.text ? 'none' : '0px 1px 5px rgba(0,0,0,0.2)' };
-  display: ${props => props.block ? 'block' : 'inline-block' };
-  width: ${props => props.block ? '100%' : 'auto' };
+  box-shadow: ${ props => props.text ? 'none' : '0px 1px 5px rgba(0,0,0,0.2)'};
+  display: ${props => props.block ? 'block' : 'inline-block'};
+  width: ${props => props.block ? '100%' : 'auto'};
   transition: all 0.3s ease;
   &:focus {
     box-shadow: 0 0 2px #bbb inset;
@@ -27,7 +27,7 @@ const Button = styled.button`
   }
 
   &:not(:disabled):hover {
-    background: ${props => props.text ? 'hsla(43, 45%, 85%, 1)' : '#ffc300' };
+    background: ${props => props.text ? 'hsla(43, 45%, 85%, 1)' : '#ffc300'};
   }
 `;
 
