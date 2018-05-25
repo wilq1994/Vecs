@@ -16,6 +16,12 @@ if(webpackConfig.mode === 'development'){
 app.use(express.static('public'))
 
 
-app.get('/*?', (req, res) => res.sendFile(__dirname + '/index.html'))
+app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'))
+app.get('/:room', (req, res) => {
+  if(req.params.room === 'room') {
+    return res.sendFile(__dirname + '/index.html')
+  }
+  return res.redirect('/');
+})
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
 
