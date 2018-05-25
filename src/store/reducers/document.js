@@ -9,12 +9,15 @@ const initialDocument = {
 export default (state = initialDocument, action) => {
   switch (action.type) {
     case CREATE_DOCUMENT:
+      return state;
       
     case SET_DOCUMENT_NAME:
+      if(!/\w/.test(action.name)) return state;
+      return Object.assign({}, state, { name: action.name });
       
     case SET_DOCUMENT_DIMENSIONS:
-      
     case NEW_FILE:
+      return Object.assign({}, state, { width: action.width, height: action.height });
       
     case LOAD_FILE:
       

@@ -44,14 +44,14 @@ export function loadFile(file) {
   }
 }
 
-export function saveDocumentAsPNG(background){
+export function saveAsPNG(background){
   return {
     type: SAVE_AS_PNG,
     background
   }
 }
 
-export function saveDocumentAsSVG(minification, seperateStyles){
+export function saveAsSVG(minification, seperateStyles){
   return {
     type: SAVE_AS_SVG,
     minification,
@@ -59,7 +59,7 @@ export function saveDocumentAsSVG(minification, seperateStyles){
   }
 }
 
-export function saveDocumentToCloud(){
+export function saveToCloud(){
   return {
     type: SAVE_TO_CLOUD
   }
