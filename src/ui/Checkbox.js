@@ -44,8 +44,8 @@ const Input = styled.div`
   }
 `;
 
-const Checkbox = ({ checked }) => (
-  <Input checked={ checked }><input type="checkbox"/><i></i></Input>
+const Checkbox = ({ checked, onChange }) => (
+  <Input><input type="checkbox" checked={ checked } onChange={ onChange }/><i></i></Input>
 )
 
 export default Checkbox;
