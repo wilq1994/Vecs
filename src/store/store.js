@@ -4,12 +4,14 @@ import document from './reducers/document';
 import members from './reducers/members';
 import user from './reducers/user';
 import modal from './reducers/modal';
+import toolbar from './reducers/toolbar';
 
 const reducers = {
   document,
   members,
   user,
-  modal
+  modal,
+  toolbar
 }
 
 const App = combineReducers(reducers);
