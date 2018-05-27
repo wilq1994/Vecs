@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { selectElement, setElementVisibility, setElementsVisibility, setElementDragging, setElementOrder } from '../store/actions/elements';
+import { selectElement, setElementVisibility, setElementsVisibility, setElementDragging, setElementOrder, deleteElement } from '../store/actions/elements';
 
 import Checkbox from './Checkbox';
+import { createDocument } from '../store/actions/document';
 
 const Box = styled.div`
   background: #fff;
@@ -97,6 +98,7 @@ class Elements extends React.Component {
 
     this.mouseMove = this.mouseMove.bind(this);
     this.drop = this.drop.bind(this);
+    this.pressDeleteKey = this.pressDeleteKey.bind(this);
   }
 
   componentDidMount(){
@@ -104,10 +106,16 @@ class Elements extends React.Component {
       list: ReactDOM.findDOMNode(this.refs.list),
       itemHeight: ReactDOM.findDOMNode(this.refs.list).querySelector('li').clientHeight
     })
+
+    window.addEventListener('keyup', this.pressDeleteKey);
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('keyup', this.pressDeleteKey);
   }
 
   drag(elementId, id, event){
-    const { mouseDownDragIcon } = this.props;
+    const { dragElement } = this.props;
     const { list, itemHeight } = this.state;
     const pos = event.clientY - list.offsetTop - 12;
     
@@ -117,7 +125,7 @@ class Elements extends React.Component {
       position: pos,
       order: Math.min(Math.abs(Math.round(pos / itemHeight)), this.props.list.length-1)
     });
-    mouseDownDragIcon(elementId);
+    dragElement(elementId);
     window.addEventListener('mousemove', this.mouseMove);
     window.addEventListener('mouseup', this.drop);
   }
@@ -133,13 +141,20 @@ class Elements extends React.Component {
   }
 
   drop() {
-    const { mouseUpDragIcon } = this.props;
+    const { dropElement } = this.props;
     const { draggingElementId, order } = this.state;
 
     this.setState({ order: null, draggingId: null });
-    mouseUpDragIcon(draggingElementId, order);
+    dropElement(draggingElementId, order);
     window.removeEventListener('mousemove', this.mouseMove);
     window.removeEventListener('mouseup', this.drop);
+  }
+
+  pressDeleteKey(event){
+    const { selectedElementId, pressDeleteKey } = this.props;
+    if(event.code === 'Delete' && selectedElementId) {
+      pressDeleteKey(selectedElementId);
+    }
   }
 
   render() {
@@ -205,12 +220,15 @@ const mapDispatchToProps = dispatch => ({
   clickElementsCheckbox: (visible) => {
     dispatch(setElementsVisibility(visible));
   },
-  mouseDownDragIcon: (id) => {
+  dragElement: (id) => {
     dispatch(setElementDragging(id, true));
   },
-  mouseUpDragIcon: (id, order) => {
+  dropElement: (id, order) => {
     dispatch(setElementDragging(id, false));
     dispatch(setElementOrder(id, order));
+  },
+  pressDeleteKey: (id) => {
+    dispatch(deleteElement(id));
   }
 });
 
