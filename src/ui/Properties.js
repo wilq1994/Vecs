@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Tabs from './Tabs';
+import FillProperty from '../views/FillProperty';
 
 const Box = styled.div`
   background: #fff;
@@ -38,7 +39,7 @@ const Properties = () => (
     <Heading><h2>Właściwości</h2></Heading>
     <Tabs/>
     <Container>
-      
+      <FillProperty/>
     </Container>
   </Box>
 )
