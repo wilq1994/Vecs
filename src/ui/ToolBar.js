@@ -39,7 +39,7 @@ const Button = styled.button`
 `;
 
 const Fill = styled.div`
-  background: ${ props => props.fill ? props.fill : 'linear-gradient(to right bottom, #fff 40%, #ff0000 40%, #ff0000 60%, #fff 60%)' };
+  background: linear-gradient(to right bottom, #fff 40%, #ff0000 40%, #ff0000 60%, #fff 60%);
   width: 2.45rem;
   height: 2.45rem;
   margin-top: 1.4rem;
@@ -48,7 +48,7 @@ const Fill = styled.div`
 `;
 
 const Stroke = styled.div`
-  background: ${ props => props.stroke ? props.stroke : 'linear-gradient(to right bottom, #fff 40%, #ff0000 40%, #ff0000 60%, #fff 60%)' };
+  background: linear-gradient(to right bottom, #fff 40%, #ff0000 40%, #ff0000 60%, #fff 60%);
   width: 2.45rem;
   height: 2.45rem;
   margin-top: 0.7rem;
@@ -78,8 +78,8 @@ const ToolBar = ({ tool, fill, stroke, clickButton }) => (
     <Button onClick={ clickButton.bind(this, 'rect') } active={ tool === 'rect' }>Rectangle</Button>
     <Button onClick={ clickButton.bind(this, 'text') } active={ tool === 'text' }>Text</Button>
     <Button onClick={ clickButton.bind(this, 'image') } active={ tool === 'image' }>Image</Button>
-    <Fill fill={ fill }/>
-    <Stroke stroke={ stroke }/>
+    <Fill style={{ background: fill }}/>
+    <Stroke style={{ background: stroke }}/>
   </Bar>
 )
 
