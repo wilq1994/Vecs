@@ -1,5 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+
+import { selectElement, setElementVisibility, setElementsVisibility, setElementDragging, setElementOrder } from '../store/actions/elements';
 
 import Checkbox from './Checkbox';
 
@@ -36,46 +40,178 @@ const List = styled.div`
     list-style: none;
     padding: 0;
     margin: 0;
+    position: relative;
   }
 `;
 
 const Item = styled.li`
-    background: ${ props => props.active ? '#f0f0f0' : 'transparent' };
-    color: ${ props => props.hue ? `hsla(${props.hue}, 80%, 30%, 0.5)` : 'inherit' };
-    font-size: 0.75rem;
-    padding: 0.35rem 0.7rem;
-    display: flex;
-    align-items: center;
-    border-left: 5px solid ${ props => props.hue ? `hsl(${props.hue}, 80%, 80%)` : 'transparent' };
-    cursor: ${ props => props.hue ? 'default' : 'pointer' };
-    &:hover {
-      background: ${ props => props.hue ? 'transparent' : '#f0f0f0' };
-    }
+  background: ${ props => props.selected ? '#f0f0f0' : '#fff' };
+  color: ${ props => props.hue ? `hsla(${props.hue}, 80%, 30%, 0.5)` : 'inherit' };
+  font-size: 0.75rem;
+  padding: 0.35rem 0.7rem;
+  display: flex;
+  align-items: center;
+  border-left: 5px solid ${ props => props.hue ? `hsl(${props.hue}, 80%, 80%)` : 'transparent' };
+  box-shadow: ${ props => props.selected ? '0 0 2px #bbb inset' : 'none' };
+  cursor: ${ props => props.hue ? 'default' : 'pointer' };
+  position: ${ props => props.dragging ? 'absolute' : 'static' };
+  left: 0;
+  right: 0;
+  ${ props => props.dragging ? 'box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 1;' : null }
+  &:hover {
+    background: ${ props => props.hue ? '#fff' : '#f0f0f0' };
   }
 
   span {
     margin-left: 0.7rem;
+    flex: 1 1 auto;
   }
 `;
 
-const Elements = () => (
-  <Box>
-    <Heading>
-      <Checkbox checked/>
-      <h2>Elementy</h2>
-    </Heading>
-    
-    <List>
-      <ul>
-        <Item><Checkbox checked/><span>obraz</span></Item>
-        <Item hue={ 16 }><Checkbox checked/><span>kwadrat</span></Item>
-        <Item hue={ 186 }><Checkbox checked/><span>tekst</span></Item>
-        <Item active><Checkbox checked/><span>linia</span></Item>
-        <Item hue={ 106 }><Checkbox checked/><span>koło</span></Item>
-        <Item><Checkbox checked/><span>ścieżka</span></Item>
-      </ul>
-    </List>
-  </Box>
-)
+const EmptyItem = styled.li`
+  background: repeating-linear-gradient(to right bottom, #fff, #fff 5px, #f0f0f0 5px, #f0f0f0 10px);
+  background-size: 2.056rem 2.056rem;
+  display: block;
+  height: 2.056rem;
+`;
 
-export default Elements;
+const DragIcon = styled.div`
+  background: #333;
+  width: 20px;
+  height: 10px;
+  flex: 0 0 auto;
+  cursor: move;
+`;
+
+class Elements extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      draggingElementId: null,
+      draggingId: null,
+      position: 0,
+      list: null,
+      itemHeight: null,
+      order: null
+    }
+
+    this.mouseMove = this.mouseMove.bind(this);
+    this.drop = this.drop.bind(this);
+  }
+
+  componentDidMount(){
+    this.setState({
+      list: ReactDOM.findDOMNode(this.refs.list),
+      itemHeight: ReactDOM.findDOMNode(this.refs.list).querySelector('li').clientHeight
+    })
+  }
+
+  drag(elementId, id, event){
+    const { mouseDownDragIcon } = this.props;
+    const { list, itemHeight } = this.state;
+    const pos = event.clientY - list.offsetTop - 12;
+    
+    this.setState({
+      draggingElementId: elementId,
+      draggingId: id,
+      position: pos,
+      order: Math.min(Math.abs(Math.round(pos / itemHeight)), this.props.list.length-1)
+    });
+    mouseDownDragIcon(elementId);
+    window.addEventListener('mousemove', this.mouseMove);
+    window.addEventListener('mouseup', this.drop);
+  }
+  
+  mouseMove(event) {
+    const { list, itemHeight } = this.state;
+    const pos = event.clientY - list.offsetTop - 12;
+
+    this.setState({
+      position: pos,
+      order: Math.min(Math.abs(Math.round(pos / itemHeight)), this.props.list.length-1)
+    });
+  }
+
+  drop() {
+    const { mouseUpDragIcon } = this.props;
+    const { draggingElementId, order } = this.state;
+
+    this.setState({ order: null, draggingId: null });
+    mouseUpDragIcon(draggingElementId, order);
+    window.removeEventListener('mousemove', this.mouseMove);
+    window.removeEventListener('mouseup', this.drop);
+  }
+
+  render() {
+    const { selectedElementId, elementsVisible, list, members, clickElement, clickElementCheckbox, clickElementsCheckbox } = this.props;
+    const { order, position, draggingId } = this.state;
+
+    return (
+      <Box>
+        <Heading>
+          <Checkbox checked={ elementsVisible } onChange={ clickElementsCheckbox.bind(this, !elementsVisible) }/>
+          <h2>Elementy</h2>
+        </Heading>
+        
+        <List>
+          <ul ref="list">
+            {
+              list.map((item, id) => {
+                let hue = null;
+                members.map(member => {
+                  if(member.id === item.selected) {
+                    hue = member.hue;
+                  }
+                });
+
+                return (
+                  <React.Fragment key={ item.id }>
+                    { ((item.dragging && order === id) || (order === id && draggingId > id)) && <EmptyItem/> }
+                    <Item selected={ item.id === selectedElementId } hue={ hue } dragging={ item.dragging } onClick={ clickElement.bind(this, item.id, item.selected) } style={{ top: position }}>
+                      <Checkbox checked={ item.visible } onChange={ clickElementCheckbox.bind(this, item.id, !item.visible) }/><span>{ item.type }</span>
+                      <DragIcon onMouseDown={ this.drag.bind(this, item.id, id) }/>
+                    </Item>
+                    { (order === id && draggingId < id) && <EmptyItem/> }
+                  </React.Fragment>
+                )
+              })
+            }
+          </ul>
+        </List>
+      </Box>
+    )
+  }
+}
+
+const mapStateToProps = state => {
+  const { selectedElementId, elementsVisible, list } = state.elements;
+
+  return {
+    selectedElementId,
+    elementsVisible,
+    list,
+    members: state.members
+  }
+};
+
+const mapDispatchToProps = dispatch => ({
+  clickElement: (id, selected, event) => {
+    if(event.target.nodeName === 'INPUT' || event.target.nodeName === 'DIV') return;
+    if(!/^\d+$/.test(selected)) dispatch(selectElement(id, null));
+  },
+  clickElementCheckbox: (id, visible, event) => {
+    dispatch(setElementVisibility(id, visible))
+  },
+  clickElementsCheckbox: (visible) => {
+    dispatch(setElementsVisibility(visible));
+  },
+  mouseDownDragIcon: (id) => {
+    dispatch(setElementDragging(id, true));
+  },
+  mouseUpDragIcon: (id, order) => {
+    dispatch(setElementDragging(id, false));
+    dispatch(setElementOrder(id, order));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Elements);

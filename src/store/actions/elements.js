@@ -6,6 +6,7 @@ export const SET_ELEMENT_VISIBILITY = 'SET_ELEMENT_VISIBILITY';
 export const SET_ELEMENT_ATTRIBUTES = 'SET_ELEMENT_ATTRIBUTES';
 export const SET_ELEMENT_STYLE = 'SET_ELEMENT_STYLE';
 export const SET_ELEMENTS_VISIBILITY = 'SET_ELEMENTS_VISIBILITY';
+export const SET_ELEMENT_DRAGGING = 'SET_ELEMENT_DRAGGING';
 
 
 export function addElement(element) {
@@ -59,6 +60,14 @@ export function setElementStyle(elementId, style) {
     type: SET_ELEMENT_STYLE,
     elementId,
     style
+  }
+}
+
+export function setElementDragging(elementId, dragging) {
+  return {
+    type: SET_ELEMENT_DRAGGING,
+    elementId,
+    dragging
   }
 }
 

@@ -1,4 +1,4 @@
-import { ADD_ELEMENT, DELETE_ELEMENT, SELECT_ELEMENT, SET_ELEMENT_ORDER, SET_ELEMENT_VISIBILITY, SET_ELEMENTS_VISIBILITY, SET_ELEMENT_STYLE, SET_ELEMENT_ATTRIBUTES } from "../actions/elements";
+import { ADD_ELEMENT, DELETE_ELEMENT, SELECT_ELEMENT, SET_ELEMENT_ORDER, SET_ELEMENT_VISIBILITY, SET_ELEMENTS_VISIBILITY, SET_ELEMENT_STYLE, SET_ELEMENT_ATTRIBUTES, SET_ELEMENT_DRAGGING } from "../actions/elements";
 
 // Test
 const initialElements = {
@@ -14,8 +14,9 @@ const initialElements = {
         height: 100
       },
       style: {},
-      selected: false,
-      visible: true
+      selected: 3,
+      visible: true,
+      dragging: false
     },
     {
       id: 1,
@@ -31,7 +32,25 @@ const initialElements = {
         stroke: null
       },
       selected: false,
-      visible: true
+      visible: true,
+      dragging: false
+    },
+    {
+      id: 2,
+      type: 'circle',
+      attrs: {
+        x: 100,
+        y: 100,
+        width: 100,
+        height: 100
+      },
+      style: {
+        fill: '#ff0000',
+        stroke: null
+      },
+      selected: false,
+      visible: true,
+      dragging: false
     }
   ]
 };
@@ -41,7 +60,7 @@ export default (state = initialElements, action) => {
     case ADD_ELEMENT:
       return Object.assign({}, state, {
                 currentId: state.currentId + 1,
-                list: [...state.list, Object.assign({}, action.element, { id: state.currentId + 1, selected: false, visible: true })]
+                list: [...state.list, Object.assign({}, action.element, { id: state.currentId + 1, selected: false, visible: true, dragging: false })]
               });
     
     case DELETE_ELEMENT:
@@ -106,6 +125,16 @@ export default (state = initialElements, action) => {
                 list: state.list.map(item => {
                   if(item.id === action.elementId) {
                     item.style = Object.assign({}, item.style, action.style);
+                  }
+                  return item;
+                })
+              });
+
+    case SET_ELEMENT_DRAGGING:
+      return Object.assign({}, state, { 
+                list: state.list.map(item => {
+                  if(item.id === action.elementId) {
+                    item.dragging = action.dragging
                   }
                   return item;
                 })
