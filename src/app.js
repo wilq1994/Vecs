@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { socket } from './socket';
 
 import { Provider, connect } from 'react-redux'
 import { createStore } from 'redux'
@@ -10,6 +11,11 @@ import store from './store/store';
 import NewRoom from './views/NewRoom';
 import JoinRoom from './views/JoinRoom';
 import Room from './views/Room';
+
+
+socket.on('action', (action) => {
+  store.dispatch(action);
+})
 
 
 const RoomRoute = props => {
