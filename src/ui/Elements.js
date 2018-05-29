@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { broadcast } from '../socket';
 
 import { selectElement, setElementVisibility, setElementsVisibility, setElementDragging, setElementOrder, deleteElement } from '../store/actions/elements';
 
@@ -141,24 +142,24 @@ class Elements extends React.Component {
   }
 
   drop() {
-    const { dropElement } = this.props;
+    const { dropElement, userId } = this.props;
     const { draggingElementId, order } = this.state;
 
     this.setState({ order: null, draggingId: null });
-    dropElement(draggingElementId, order);
+    dropElement(userId, draggingElementId, order);
     window.removeEventListener('mousemove', this.mouseMove);
     window.removeEventListener('mouseup', this.drop);
   }
 
   pressDeleteKey(event){
-    const { selectedElementId, pressDeleteKey } = this.props;
-    if(event.code === 'Delete' && selectedElementId) {
-      pressDeleteKey(selectedElementId);
+    const { selectedElementId, pressDeleteKey, userId } = this.props;
+    if(event.code === 'Delete' && selectedElementId !== null) {
+      pressDeleteKey(userId, selectedElementId);
     }
   }
 
   render() {
-    const { selectedElementId, elementsVisible, list, members, clickElement, clickElementCheckbox, clickElementsCheckbox } = this.props;
+    const { selectedElementId, elementsVisible, list, members, userId, clickElement, clickElementCheckbox, clickElementsCheckbox } = this.props;
     const { order, position, draggingId } = this.state;
 
     return (
@@ -182,7 +183,7 @@ class Elements extends React.Component {
                 return (
                   <React.Fragment key={ item.id }>
                     { ((item.dragging && order === id) || (order === id && draggingId > id)) && <EmptyItem/> }
-                    <Item selected={ item.id === selectedElementId } hue={ hue } dragging={ item.dragging } onClick={ clickElement.bind(this, item.id, item.selected) } style={{ top: position }}>
+                    <Item selected={ item.id === selectedElementId } hue={ hue } dragging={ item.dragging } onClick={ clickElement.bind(this, userId, item.id, item.selected, selectedElementId) } style={{ top: position }}>
                       <Checkbox checked={ item.visible } onChange={ clickElementCheckbox.bind(this, item.id, !item.visible) }/><span>{ item.type }</span>
                       <DragIcon onMouseDown={ this.drag.bind(this, item.id, id) }/>
                     </Item>
@@ -202,6 +203,7 @@ const mapStateToProps = state => {
   const { selectedElementId, elementsVisible, list } = state.elements;
 
   return {
+    userId: state.user.id,
     selectedElementId,
     elementsVisible,
     list,
@@ -210,9 +212,13 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  clickElement: (id, selected, event) => {
+  clickElement: (userId, id, selected, selectedElementId, event) => {
     if(event.target.nodeName === 'INPUT' || event.target.nodeName === 'DIV') return;
-    if(!/^\d+$/.test(selected)) dispatch(selectElement(id, null));
+    if(!/^\d+$/.test(selected)) {
+      if(selectedElementId !== null && selectedElementId !== id) broadcast(userId, selectElement(selectedElementId, userId));
+      broadcast(userId, selectElement(id, userId));
+      dispatch(selectElement(id, null));
+    }
   },
   clickElementCheckbox: (id, visible, event) => {
     dispatch(setElementVisibility(id, visible))
@@ -223,12 +229,14 @@ const mapDispatchToProps = dispatch => ({
   dragElement: (id) => {
     dispatch(setElementDragging(id, true));
   },
-  dropElement: (id, order) => {
+  dropElement: (userId, id, order) => {
     dispatch(setElementDragging(id, false));
     dispatch(setElementOrder(id, order));
+    broadcast(userId, setElementOrder(id, order));
   },
-  pressDeleteKey: (id) => {
+  pressDeleteKey: (userId, id) => {
     dispatch(deleteElement(id));
+    broadcast(userId, deleteElement(id));
   }
 });
 
