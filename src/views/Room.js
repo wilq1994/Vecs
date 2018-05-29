@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { broadcast } from '../socket';
+
+import { changeMemberActivity } from '../store/actions/members';
 
 import TopBar from '../ui/TopBar';
 import ToolBar from '../ui/ToolBar';
@@ -18,17 +22,43 @@ const Layout = styled.div`
   height: 100%;
 `;
 
-const Room = () => (
-  <React.Fragment>
-    <Layout>
-      <TopBar/>
-      <ToolBar/>
-      <Stage/>
-      <Elements/>
-      <Properties/>
-    </Layout>
-    <Modal/>
-  </React.Fragment>
-);
+class Room extends React.Component {
+  constructor(props){
+    super(props);
+    this.setActivity = this.setActivity.bind(this);
+  }
 
-export default Room;
+  componentDidMount(){
+    window.addEventListener("visibilitychange", this.setActivity);
+  }
+  
+  componentWillUnmount(){
+    window.removeEventListener("visibilitychange", this.setActivity);
+  }
+
+  setActivity(event){
+    const { userId } = this.props;
+    broadcast(userId, changeMemberActivity(userId, !document.hidden));
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <Layout>
+          <TopBar/>
+          <ToolBar/>
+          <Stage/>
+          <Elements/>
+          <Properties/>
+        </Layout>
+        <Modal/>
+      </React.Fragment>
+    )
+  }
+}
+
+const mapStateToProps = state => ({
+  userId: state.user.id
+})
+
+export default connect(mapStateToProps)(Room);
