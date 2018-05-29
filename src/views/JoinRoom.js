@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { emit } from '../socket';
+
+import { createDocument } from '../store/actions/document';
+import { authenticateUser } from '../store/actions/user';
 
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -66,34 +71,67 @@ const Copyright = styled.p`
   color: #909090;
 `;
 
-export default class JoinRoom extends Component {
+class JoinRoom extends Component {
   constructor(props) {
     super(props)
   
     this.state = {
-       login: ''
+       login: '',
+       hue: Math.round(Math.random() * 360)
     }
-    this.changeLogin = this.changeLogin.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(this.props.documentInit && this.props.isAuthenticated){
+      this.props.history.push(`/${this.props.documentUrl}`);
+    }
   }
 
   changeLogin(event){
     this.setState({ login: event.target.value });
   }
+
+  authenticate(documentInit, documentId, documentName, login, event){
+    event.preventDefault();
+    const { hue } = this.state;
+    if(documentInit !== null){
+      emit(createDocument(documentName));
+      emit(authenticateUser(null, { login, hue }));
+    }else{
+      emit(authenticateUser(documentId, { login, hue }));
+    }
+  }
   
   render() {
-    const { login } = this.state;
+    const { login, hue } = this.state;
+    const { documentInit, documentId, documentName } = this.props;
 
     return (
       <Layout>
         <Box>
-          <Logo><img src="img/logo.png" alt="Vecs"/></Logo>
-          <Heading><span>Dołącz do pokoju</span>Będziemy Magistrami</Heading>
-          <BigAvatar login={ login } speak/>
-          <Input label="Login:" change={ this.changeLogin } required={ true }/>
-          <Button block disabled={ login === '' }>Dołącz</Button>
+          <form onSubmit={ this.authenticate.bind(this) }>
+            <Logo><img src="img/logo.png" alt="Vecs"/></Logo>
+            <Heading><span>Dołącz do pokoju</span>{ documentName }</Heading>
+            <BigAvatar hue={ hue } login={ login } speak/>
+            <Input label="Login:" change={ this.changeLogin.bind(this) } required={ true }/>
+            <Button block disabled={ login === '' } onClick={ this.authenticate.bind(this, documentInit, documentId, documentName, login) }>Dołącz</Button>
+          </form>
         </Box>
         <Copyright>Bartosz Wilk © 2018</Copyright>
       </Layout>
     )
   }
 }
+
+const mapStateToProps = state => {
+  const { id, name, url, init } = state.document;
+  return {
+    isAuthenticated: state.user.isAuthenticated,
+    documentInit: init,
+    documentId: id,
+    documentName: name,
+    documentUrl: url
+  }
+};
+
+export default connect(mapStateToProps)(JoinRoom);
