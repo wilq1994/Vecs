@@ -29,16 +29,18 @@ const List = styled.div`
   }
 `;
 
-const Members = ({ user, members }) => (
-  <List>
-    {
-      members.map((item, id) => (
-        <Avatar key={ id } login={ item.name } hue={ item.hue } inactive={ !item.active } speak={ item.speak }/>
-      ))
-    }
-    <Avatar login={ user.name } hue={ user.hue } speak={ user.speak }/>
-  </List>
-)
+const Members = ({ user, members }) => {
+  return (
+    <List>
+      {
+        members.map((member, id) => (
+          <Avatar key={ id } login={ member.login } hue={ member.hue } inactive={ !member.active } speak={ member.speak }/>
+        ))
+      }
+      <Avatar login={ user.login } hue={ user.hue } speak={ user.speak }/>
+    </List>
+  )
+}
 
 const mapStateToProps = state => ({
   user: state.user,
