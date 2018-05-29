@@ -1,4 +1,5 @@
 export const CREATE_DOCUMENT = 'CREATE_DOCUMENT';
+export const DOCUMENT_CREATED = 'DOCUMENT_CREATED';
 export const SET_DOCUMENT_NAME = 'SET_DOCUMENT_NAME';
 export const SET_DOCUMENT_DIMENSIONS = 'SET_DOCUMENT_DIMENSIONS';
 export const NEW_FILE = 'NEW_FILE';
@@ -8,9 +9,17 @@ export const SAVE_AS_SVG = 'SAVE_AS_SVG';
 export const SAVE_TO_CLOUD = 'SAVE_TO_CLOUD';
 
 
-export function createDocument(){
+export function createDocument(name){
   return {
-    type: CREATE_DOCUMENT
+    type: CREATE_DOCUMENT,
+    name
+  }
+}
+
+export function documentCreated(document){
+  return {
+    type: DOCUMENT_CREATED,
+    document
   }
 }
 

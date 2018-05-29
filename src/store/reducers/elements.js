@@ -14,7 +14,7 @@ const initialElements = {
         height: 100
       },
       style: {},
-      selected: 3,
+      selected: false,
       visible: true,
       dragging: false
     },

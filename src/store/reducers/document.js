@@ -1,15 +1,18 @@
-import { CREATE_DOCUMENT, LOAD_FILE, NEW_FILE, SAVE_AS_PNG, SAVE_AS_SVG, SAVE_TO_CLOUD, SET_DOCUMENT_DIMENSIONS, SET_DOCUMENT_NAME } from '../actions/document';
+import { DOCUMENT_CREATED, LOAD_FILE, NEW_FILE, SAVE_AS_PNG, SAVE_AS_SVG, SAVE_TO_CLOUD, SET_DOCUMENT_DIMENSIONS, SET_DOCUMENT_NAME } from '../actions/document';
 
 const initialDocument = {
-  name: null,
+  id: window.__INITIAL_STATE__ ? window.__INITIAL_STATE__.documentId : null,
+  url: window.__INITIAL_STATE__ ? window.__INITIAL_STATE__.documentUrl : null,
+  name: window.__INITIAL_STATE__ ? window.__INITIAL_STATE__.documentName : null,
   width: null,
-  height: null
+  height: null,
+  init: !window.__INITIAL_STATE__ ? false : null
 };
 
 export default (state = initialDocument, action) => {
   switch (action.type) {
-    case CREATE_DOCUMENT:
-      return state;
+    case DOCUMENT_CREATED:
+      return Object.assign({}, state, action.document, { init: true });
       
     case SET_DOCUMENT_NAME:
       if(!/\w/.test(action.name)) return state;
