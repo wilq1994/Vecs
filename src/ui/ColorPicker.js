@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ColorRange from './ColorRange';
 
 const Sample = styled.div`
-  ${ props => props.empty ? 'background: linear-gradient(to right bottom,#fff 40%,#ff0000 40%,#ff0000 60%,#fff 60%);' : `background: hsl(${props.hue}, ${props.saturation}%, ${props.light}%);` }
+  ${ props => props.empty ? 'background: linear-gradient(to right bottom,#fff 40%,#ff0000 40%,#ff0000 60%,#fff 60%);' : null }
   width: 5.95rem;
   height: 5.95rem;
   border: 1px solid #d9d9d9;
@@ -15,6 +15,7 @@ const Sample = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
+  margin-bottom: 1.4rem;
 `;
 
 const Left = styled.div`
@@ -31,6 +32,15 @@ const Right = styled.div`
   }
 `;
 
+const Select = styled.select`
+  padding: 0.35rem 0.7rem;
+  margin-bottom: 0.7rem;
+  width: 100%;
+  border-radius: 5px;
+  background: #f0f0f0;
+  border: 0;
+`;
+
 
 class ColorPicker extends React.Component {
   constructor(props) {
@@ -44,6 +54,19 @@ class ColorPicker extends React.Component {
       hue: dimensions[0],
       saturation: dimensions[1],
       light: dimensions[2]
+    }
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps.color !== this.props.color && this.props.color){
+      let dimensions = [0, 100, 50];
+      dimensions = this.props.color.match(/\d{1,3}/g);
+      this.setState({
+        type: !this.props.color ? 'empty' : 'color',
+        hue: dimensions[0],
+        saturation: dimensions[1],
+        light: dimensions[2]
+      })
     }
   }
 
@@ -72,13 +95,13 @@ class ColorPicker extends React.Component {
     const { type, hue, saturation, light } = this.state;
     return (
       <React.Fragment>
-        <select onChange={ this.setFillType.bind(this) }>
+        <Select onChange={ this.setFillType.bind(this) } value={ this.props.color === null ? 'empty' : 'color' }>
           <option value="empty">Brak</option>
           <option value="color">Kolor</option>
-        </select>
+        </Select>
         <Wrapper>
           <Left>
-            { type === 'empty' ? <Sample empty/> : <Sample hue={hue} saturation={saturation} light={light}/> }
+            { type === 'empty' ? <Sample empty/> : <Sample style={{ background: `hsl(${hue}, ${saturation}%, ${light}%)` }}/> }
           </Left>
           {
             type !== 'empty' &&

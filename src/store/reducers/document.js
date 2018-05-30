@@ -4,8 +4,10 @@ const initialDocument = {
   id: window.__INITIAL_STATE__ ? window.__INITIAL_STATE__.documentId : null,
   url: window.__INITIAL_STATE__ ? window.__INITIAL_STATE__.documentUrl : null,
   name: window.__INITIAL_STATE__ ? window.__INITIAL_STATE__.documentName : null,
-  width: null,
-  height: null,
+  width: 500,
+  height: 500,
+  tempWidth: 500,
+  tempHeight: 500,
   init: !window.__INITIAL_STATE__ ? false : null
 };
 
@@ -19,8 +21,10 @@ export default (state = initialDocument, action) => {
       return Object.assign({}, state, { name: action.name });
       
     case SET_DOCUMENT_DIMENSIONS:
+      return Object.assign({}, state, { tempWidth: action.width, tempHeight: action.height });
+
     case NEW_FILE:
-      return Object.assign({}, state, { width: action.width, height: action.height });
+      return Object.assign({}, state, { width: state.tempWidth, height: state.tempHeight });
       
     case LOAD_FILE:
       

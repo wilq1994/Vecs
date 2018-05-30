@@ -1,62 +1,42 @@
 import { ADD_ELEMENT, DELETE_ELEMENT, SELECT_ELEMENT, SET_ELEMENT_ORDER, SET_ELEMENT_VISIBILITY, SET_ELEMENTS_VISIBILITY, SET_ELEMENT_STYLE, SET_ELEMENT_ATTRIBUTES, SET_ELEMENT_DRAGGING } from "../actions/elements";
 
+import Rect from '../../elements/Rect';
+import Circle from '../../elements/Circle';
+import { NEW_FILE } from '../actions/document';
+
 // Test
 const initialElements = {
   currentId: 1,
   selectedElementId: null,
   elementsVisible: true,
-  list:[
-    {
-      id: 0,
-      type: 'image',
-      attrs: {
-        width: 100,
-        height: 100
-      },
-      style: {},
-      selected: false,
-      visible: true,
-      dragging: false
-    },
-    {
-      id: 1,
-      type: 'rect',
-      attrs: {
-        x: 100,
-        y: 100,
-        width: 100,
-        height: 100
-      },
-      style: {
-        fill: '#ff0000',
-        stroke: null
-      },
-      selected: false,
-      visible: true,
-      dragging: false
-    },
-    {
-      id: 2,
-      type: 'circle',
-      attrs: {
-        x: 100,
-        y: 100,
-        width: 100,
-        height: 100
-      },
-      style: {
-        fill: '#ff0000',
-        stroke: null
-      },
-      selected: false,
-      visible: true,
-      dragging: false
-    }
+  list: [
+    new Rect(1, {
+      x: 100,
+      y: 100,
+      width: 200,
+      height: 150
+    }, {
+      fill: 'hsl(176, 100%, 50%)',
+      'stroke-width': 5,
+      stroke: 'hsl(205, 50%, 50%)'
+    }),
+    new Circle(2, {
+      cx: 320,
+      cy: 320,
+      r: 50
+    }, {
+      fill: 'hsl(61, 100%, 50%)',
+      'stroke-width': 5,
+      stroke: 'hsl(37, 100%, 50%)'
+    })
   ]
 };
 
 export default (state = initialElements, action) => {
   switch (action.type) {
+    case NEW_FILE:
+      return { currentId: 0, selectedElementId: null, elementsVisible: true, list: [] };
+
     case ADD_ELEMENT:
       return Object.assign({}, state, {
                 currentId: state.currentId + 1,

@@ -111,7 +111,7 @@ const Modal = ({ visible, title, content, closeButton, cancelButton, confirmButt
         { 
           confirmButton && 
           <Footer>
-            <Button>{ confirmButton }</Button>
+            <Button onClick={ buttonAction }>{ confirmButton }</Button>
             { cancelButton && <Button text onClick={ close.bind(this) }>Anuluj</Button> }
           </Footer>
         }

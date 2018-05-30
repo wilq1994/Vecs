@@ -38,11 +38,9 @@ export function setDocumentDimensions(width, height) {
   }
 }
 
-export function newFile(width, height) {
+export function newFile() {
   return {
-    type: NEW_FILE,
-    width,
-    height
+    type: NEW_FILE
   }
 }
 

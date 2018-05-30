@@ -58,6 +58,17 @@ class ColorRange extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps) {
+    if(prevProps.value !== this.props.value) {
+      const thumb = ReactDOM.findDOMNode(this.refs.thumb);
+      const track = ReactDOM.findDOMNode(this.refs.track);
+      const maxPosition = track.clientWidth - thumb.clientWidth;
+      this.setState({
+        position: this.props.value / this.props.max * maxPosition
+      });
+    }
+  }
+
   drag(event){
     const offset = event.clientX - ReactDOM.findDOMNode(this.refs.track).offsetLeft - ReactDOM.findDOMNode(this.refs.thumb).offsetLeft;
     this.setState({ offset });

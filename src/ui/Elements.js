@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { broadcast } from '../socket';
 
 import { selectElement, setElementVisibility, setElementsVisibility, setElementDragging, setElementOrder, deleteElement } from '../store/actions/elements';
+import { setFill, setStroke } from '../store/actions/toolbar';
 
 import Checkbox from './Checkbox';
 import { createDocument } from '../store/actions/document';
@@ -78,9 +79,9 @@ const EmptyItem = styled.li`
 `;
 
 const DragIcon = styled.div`
-  background: #333;
-  width: 20px;
-  height: 10px;
+  background: url('../img/drag-icon.png') no-repeat;
+  width: 18px;
+  height: 11px;
   flex: 0 0 auto;
   cursor: move;
 `;
@@ -183,8 +184,8 @@ class Elements extends React.Component {
                 return (
                   <React.Fragment key={ item.id }>
                     { ((item.dragging && order === id) || (order === id && draggingId > id)) && <EmptyItem/> }
-                    <Item selected={ item.id === selectedElementId } hue={ hue } dragging={ item.dragging } onClick={ clickElement.bind(this, userId, item.id, item.selected, selectedElementId) } style={{ top: position }}>
-                      <Checkbox checked={ item.visible } onChange={ clickElementCheckbox.bind(this, item.id, !item.visible) }/><span>{ item.type }</span>
+                    <Item selected={ item.id === selectedElementId } hue={ hue } dragging={ item.dragging } onClick={ clickElement.bind(this, userId, item.id, item.selected, item.style.fill, item.style.stroke, selectedElementId) } style={{ top: position }}>
+                      <Checkbox checked={ item.visible } onChange={ clickElementCheckbox.bind(this, item.id, !item.visible) }/><span>{ item.name }</span>
                       <DragIcon onMouseDown={ this.drag.bind(this, item.id, id) }/>
                     </Item>
                     { (order === id && draggingId < id) && <EmptyItem/> }
@@ -212,12 +213,14 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  clickElement: (userId, id, selected, selectedElementId, event) => {
+  clickElement: (userId, id, selected, fill, stroke, selectedElementId, event) => {
     if(event.target.nodeName === 'INPUT' || event.target.nodeName === 'DIV') return;
     if(!/^\d+$/.test(selected)) {
       if(selectedElementId !== null && selectedElementId !== id) broadcast(userId, selectElement(selectedElementId, userId));
       broadcast(userId, selectElement(id, userId));
       dispatch(selectElement(id, null));
+      dispatch(setFill(fill));
+      dispatch(setStroke(stroke));
     }
   },
   clickElementCheckbox: (id, visible, event) => {

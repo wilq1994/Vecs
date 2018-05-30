@@ -1,19 +1,42 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ColorPicker from '../ui/ColorPicker';
+import { broadcast } from '../socket';
 
-import { setFill } from '../store/actions/toolbar';
+import { setFill, setStroke } from '../store/actions/toolbar';
+import { setElementStyle } from '../store/actions/elements';
 
-const FillProperty = ({ changeColor }) => (
+const FillProperty = ({ fill, stroke, userId, selectedElementId, changeFill, changeStroke }) => (
   <React.Fragment>
-    <ColorPicker color={ null } change={ changeColor.bind(this) }/>
+    <span>Tło</span><br/><br/>
+    <ColorPicker color={ fill } change={ changeFill.bind(this, userId, selectedElementId) }/>
+    <span>Obrys</span><br/><br/>
+    <ColorPicker color={ stroke } change={ changeStroke.bind(this, userId, selectedElementId) }/>
   </React.Fragment>
 );
 
+const mapStateToProps = state => ({
+  fill: state.toolbar.fill,
+  stroke: state.toolbar.stroke,
+  userId: state.user.id,
+  selectedElementId: state.elements.selectedElementId
+})
+
 const mapDispatchToProps = dispatch => ({
-  changeColor: (color) => {
+  changeFill: (userId, selectedElementId, color) => {
     dispatch(setFill(color));
+    if(selectedElementId !== null){
+      dispatch(setElementStyle(selectedElementId, { fill: color }));
+      broadcast(userId, setElementStyle(selectedElementId, { fill: color }));
+    }
+  },
+  changeStroke: (userId, selectedElementId, color) => {
+    dispatch(setStroke(color));
+    if(selectedElementId !== null){
+      dispatch(setElementStyle(selectedElementId, { stroke: color }));
+      broadcast(userId, setElementStyle(selectedElementId, { stroke: color }));
+    }
   }
 });
 
-export default connect(null, mapDispatchToProps)(FillProperty);
+export default connect(mapStateToProps, mapDispatchToProps)(FillProperty);
