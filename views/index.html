@@ -11,12 +11,7 @@
   <body>
     <div id="root"></div>
     <script>
-      {{#state}}
         window.__INITIAL_STATE__ = JSON.parse('{{{ state }}}');
-      {{/state}}
-      {{^state}}
-        window.__INITIAL_STATE__ = null;
-      {{/state}}
     </script>
     <script src="bundle.js"></script>
   </body>

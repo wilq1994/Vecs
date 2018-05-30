@@ -7,6 +7,7 @@ export const LOAD_FILE = 'LOAD_FILE';
 export const SAVE_AS_PNG = 'SAVE_AS_PNG';
 export const SAVE_AS_SVG = 'SAVE_AS_SVG';
 export const SAVE_TO_CLOUD = 'SAVE_TO_CLOUD';
+export const SET_GOOGLE_TOKEN = 'SET_GOOGLE_TOKEN';
 
 
 export function createDocument(name){
@@ -68,8 +69,16 @@ export function saveAsSVG(minification, seperateStyles){
   }
 }
 
-export function saveToCloud(){
+export function saveToCloud(token){
   return {
-    type: SAVE_TO_CLOUD
+    type: SAVE_TO_CLOUD,
+    token
+  }
+}
+
+export function setGoogleToken(googleToken){
+  return {
+    type: SET_GOOGLE_TOKEN,
+    googleToken
   }
 }

@@ -1,12 +1,14 @@
-import { DOCUMENT_CREATED, LOAD_FILE, NEW_FILE, SAVE_AS_PNG, SAVE_AS_SVG, SAVE_TO_CLOUD, SET_DOCUMENT_DIMENSIONS, SET_DOCUMENT_NAME } from '../actions/document';
+import { DOCUMENT_CREATED, LOAD_FILE, NEW_FILE, SAVE_AS_PNG, SAVE_AS_SVG, SAVE_TO_CLOUD, SET_DOCUMENT_DIMENSIONS, SET_DOCUMENT_NAME, SET_GOOGLE_TOKEN  } from '../actions/document';
 
 const initialDocument = {
-  id: window.__INITIAL_STATE__ ? window.__INITIAL_STATE__.documentId : null,
-  url: window.__INITIAL_STATE__ ? window.__INITIAL_STATE__.documentUrl : null,
-  name: window.__INITIAL_STATE__ ? window.__INITIAL_STATE__.documentName : null,
+  id: window.__INITIAL_STATE__.documentId ? window.__INITIAL_STATE__.documentId : null,
+  url: window.__INITIAL_STATE__.documentUrl ? window.__INITIAL_STATE__.documentUrl : null,
+  name: window.__INITIAL_STATE__.documentName ? window.__INITIAL_STATE__.documentName : null,
   width: null,
   height: null,
-  init: !window.__INITIAL_STATE__ ? false : null
+  googleToken: null,
+  googleAuthUrl: window.__INITIAL_STATE__.googleAuthUrl,
+  init: window.__INITIAL_STATE__.new ? false : null
 };
 
 export default (state = initialDocument, action) => {
@@ -21,6 +23,9 @@ export default (state = initialDocument, action) => {
     case SET_DOCUMENT_DIMENSIONS:
     case NEW_FILE:
       return Object.assign({}, state, { width: action.width, height: action.height });
+
+    case SET_GOOGLE_TOKEN:
+      return Object.assign({}, state, { googleToken: action.googleToken });
       
     case LOAD_FILE:
       

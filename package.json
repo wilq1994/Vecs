@@ -15,6 +15,7 @@
   "homepage": "https://github.com/wilq1994/vecs#readme",
   "dependencies": {
     "express": "^4.16.3",
+    "googleapis": "^31.0.2",
     "mustache-express": "^1.2.6",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",

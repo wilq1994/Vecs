@@ -7,6 +7,7 @@ import { createStore } from 'redux'
 import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom';
 
 import store from './store/store';
+import { setGoogleToken } from './store/actions/document';
 
 import NewRoom from './views/NewRoom';
 import JoinRoom from './views/JoinRoom';
@@ -17,6 +18,9 @@ socket.on('action', (action) => {
   store.dispatch(action);
 })
 
+window.googleAuthCallback = function(message){
+  store.dispatch(setGoogleToken(message));
+}
 
 const RoomRoute = props => {
   if(props.isAuthenticated) {

@@ -1,11 +1,11 @@
 import { AUTHENTICATE_USER, USER_AUTHENTICATED } from "../actions/user";
 
 const initialUser = {
-  id: null,
-  name: null,
-  hue: null,
+  id: 1,
+  login: 'Wilq',
+  hue: 20,
   speak: false,
-  isAuthenticated: false
+  isAuthenticated: true
 };
 
 // // Test
