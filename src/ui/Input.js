@@ -22,21 +22,16 @@ const Field = styled.input`
   &:focus {
     box-shadow: 0 0 2px #bbb inset;
   }
-
-  &:invalid:not(:focus) {
-    /* box-shadow: 0 0 2px #ff6e00 inset;
-    background: #fff3d4; */
-  }
 `;
 
 const Wrapper = styled.div`
   margin-bottom: 1.4rem;
 `;
 
-const Input = ({ label, change, required }) => (
+const Input = ({ label, type, change, value, required }) => (
   <Wrapper>
     <Label>{ label }</Label>
-    <Field onChange={ change } required={ required }/>
+    <Field type={ type ? type : 'text' } value={ value } onChange={ change } required={ required }/>
   </Wrapper>
 );
 
