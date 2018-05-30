@@ -41,6 +41,16 @@ const Input = styled.div`
     left: 0px;
     pointer-events: none;
     display: none;
+    &:after {
+      content: '';
+      display: block;
+      background: url('../img/checkbox.png') no-repeat;
+      width: 12px;
+      height: 10px;
+      position: absolute;
+      top: 3px;
+      left: 2px;
+    }
   }
 `;
 

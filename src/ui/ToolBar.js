@@ -36,6 +36,19 @@ const Button = styled.button`
       display: block;
     }
   }
+
+  &:nth-child(1) {
+    background: url('../img/tools.png') no-repeat left 0;
+  }
+  &:nth-child(2) {
+    background: url('../img/tools.png') no-repeat left -48px;
+  }
+  &:nth-child(3) {
+    background: url('../img/tools.png') no-repeat left -96px;
+  }
+  &:nth-child(4) {
+    background: url('../img/tools.png') no-repeat left -144px;
+  }
 `;
 
 const Fill = styled.div`
@@ -71,13 +84,13 @@ const Stroke = styled.div`
 
 const ToolBar = ({ tool, fill, stroke, clickButton }) => (
   <Bar>
-    <Button onClick={ clickButton.bind(this, 'select') } active={ tool === 'select' }>Select</Button>
-    <Button onClick={ clickButton.bind(this, 'path') } active={ tool === 'path' }>Path</Button>
-    <Button onClick={ clickButton.bind(this, 'line') } active={ tool === 'line' }>Line</Button>
-    <Button onClick={ clickButton.bind(this, 'circle') } active={ tool === 'circle' }>Circle</Button>
-    <Button onClick={ clickButton.bind(this, 'rect') } active={ tool === 'rect' }>Rectangle</Button>
-    <Button onClick={ clickButton.bind(this, 'text') } active={ tool === 'text' }>Text</Button>
-    <Button onClick={ clickButton.bind(this, 'image') } active={ tool === 'image' }>Image</Button>
+    <Button onClick={ clickButton.bind(this, 'select') } active={ tool === 'select' }></Button>
+    {/* <Button onClick={ clickButton.bind(this, 'path') } active={ tool === 'path' }></Button> */}
+    <Button onClick={ clickButton.bind(this, 'line') } active={ tool === 'line' }></Button>
+    <Button onClick={ clickButton.bind(this, 'circle') } active={ tool === 'circle' }></Button>
+    <Button onClick={ clickButton.bind(this, 'rect') } active={ tool === 'rect' }></Button>
+    {/* <Button onClick={ clickButton.bind(this, 'text') } active={ tool === 'text' }></Button> */}
+    {/* <Button onClick={ clickButton.bind(this, 'image') } active={ tool === 'image' }></Button> */}
     <Fill style={{ background: fill }}/>
     <Stroke style={{ background: stroke }}/>
   </Bar>

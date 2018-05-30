@@ -8,7 +8,7 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 
 const Layout = styled.div`
-  background: #eee;
+  background: url('../img/cork-wallet.png') repeat;
   height: 100%;
   display: flex;
   align-items: center;

@@ -11,7 +11,7 @@ import Button from '../ui/Button';
 import Avatar from '../ui/Avatar';
 
 const Layout = styled.div`
-  background: #eee;
+  background: url('../img/cork-wallet.png') repeat;
   height: 100%;
   display: flex;
   align-items: center;
