@@ -66,6 +66,10 @@ const Button = styled.button`
   &:nth-child(4):before {
     background: url('../img/top-icons.png') no-repeat -108px top;
   }
+
+  &:nth-child(5):before {
+    background: url('../img/top-icons.png') no-repeat -144px top;
+  }
 `;
 
 class FileOperations extends React.Component {
@@ -113,10 +117,10 @@ class FileOperations extends React.Component {
     return (
       <List>
         <Button onClick={ clickButton.bind(this, 'Nowy plik', <NewFilePopup/>, true, true, 'OK', this.createNewFile) }><span>Nowy plik</span></Button>
+        <Button onClick={ clickButton.bind(this, 'Wczytaj plik', 'Content', true, true, 'Confirm', null) }><span>Wczytaj plik</span></Button>
         <Button onClick={ clickButton.bind(this, 'Zapisz jako PNG', <SavePngPopup/>, true, true, 'Zapisz', this.savePNG) }><span>Zapisz jako PNG</span></Button>
         <Button onClick={ clickButton.bind(this, 'Zapisz jako SVG', 'Content', true, true, 'Confirm', null) }><span>Zapisz jako SVG</span></Button>
         <Button onClick={ clickButton.bind(this, 'Kod', <CodePopup/>, true, false, 'OK', this.svgCode) }><span>Kod</span></Button>
-        {/* <Button onClick={ clickButton.bind(this, 'Wczytaj plik', 'Content', true, true, 'Confirm', null) }><span>Wczytaj plik</span></Button> */}
         {/* <Button onClick={ clickButton.bind(this, 'Zapisz w chmurze', 'Content', true, true, 'Confirm', null) }><span>Zapisz w chmurze</span></Button> */}
       </List>
     )

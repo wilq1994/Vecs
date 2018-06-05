@@ -1,8 +1,8 @@
-export default class Line {
+export default class Image {
   constructor(id, attrs, style){
     this.id = id;
-    this.type = 'line';
-    this.name = 'Linia';
+    this.type = 'image';
+    this.name = 'Obraz';
     this.selected = false;
     this.visible = true;
     this.dragging = false;

@@ -2,6 +2,8 @@ import { ADD_ELEMENT, DELETE_ELEMENT, SELECT_ELEMENT, SET_ELEMENT_ORDER, SET_ELE
 
 import Rect from '../../elements/Rect';
 import Circle from '../../elements/Circle';
+import Image from '../../elements/Image';
+import Line from '../../elements/Line';
 import { NEW_FILE } from '../actions/document';
 
 // Test
@@ -28,6 +30,26 @@ const initialElements = {
       fill: 'hsl(61, 100%, 50%)',
       'stroke-width': 5,
       stroke: 'hsl(37, 100%, 50%)'
+    }),
+    new Image(3, {
+      x: 100,
+      y: 100,
+      width: 200,
+      height: 150
+    }, {
+      fill: 'hsl(176, 100%, 50%)',
+      'stroke-width': 5,
+      stroke: 'hsl(205, 50%, 50%)'
+    }),
+    new Line(4, {
+      x: 100,
+      y: 100,
+      width: 200,
+      height: 150
+    }, {
+      fill: 'hsl(176, 100%, 50%)',
+      'stroke-width': 5,
+      stroke: 'hsl(205, 50%, 50%)'
     })
   ]
 };

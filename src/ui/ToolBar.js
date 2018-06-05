@@ -49,6 +49,9 @@ const Button = styled.button`
   &:nth-child(4) {
     background: url('../img/tools.png') no-repeat left -144px;
   }
+  &:nth-child(5) {
+    background: url('../img/tools.png') no-repeat left -192px;
+  }
 `;
 
 const Fill = styled.div`
@@ -90,7 +93,7 @@ const ToolBar = ({ tool, fill, stroke, clickButton }) => (
     <Button onClick={ clickButton.bind(this, 'circle') } active={ tool === 'circle' }></Button>
     <Button onClick={ clickButton.bind(this, 'rect') } active={ tool === 'rect' }></Button>
     {/* <Button onClick={ clickButton.bind(this, 'text') } active={ tool === 'text' }></Button> */}
-    {/* <Button onClick={ clickButton.bind(this, 'image') } active={ tool === 'image' }></Button> */}
+    <Button onClick={ clickButton.bind(this, 'image') } active={ tool === 'image' }></Button>
     <Fill style={{ background: fill }}/>
     <Stroke style={{ background: stroke }}/>
   </Bar>
