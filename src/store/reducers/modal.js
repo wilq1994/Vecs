@@ -1,4 +1,5 @@
 import { CLOSE_MODAL, OPEN_MODAL } from "../actions/modal";
+import { SET_DESTINATION, LOCAL_DISK } from '../actions/modal';
 
 const initialModal = {
   visible: false,
@@ -7,17 +8,21 @@ const initialModal = {
   closeButton: null,
   cancelButton: null,
   confirmButton: null,
-  buttonAction: null
+  confirmButtonAction: null,
+  destination: LOCAL_DISK
 };
 
 export default (state = initialModal, action) => {
   switch (action.type) {
     case CLOSE_MODAL:
-      return initialModal;  
+      return Object.assign({}, state, { visible: false });  
 
     case OPEN_MODAL:
       if(!action.modal) return state;
       return Object.assign({}, state, action.modal);
+    
+    case SET_DESTINATION:
+      return Object.assign({}, state, { destination: action.destination });
     
     default:
       return state;
