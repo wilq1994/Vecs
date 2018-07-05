@@ -1,5 +1,4 @@
 import { CLOSE_MODAL, OPEN_MODAL } from "../actions/modal";
-import { SET_DESTINATION, LOCAL_DISK } from '../actions/modal';
 
 const initialModal = {
   visible: false,
@@ -7,9 +6,8 @@ const initialModal = {
   content: null,
   closeButton: null,
   cancelButton: null,
-  confirmButton: null,
-  confirmButtonAction: null,
-  destination: LOCAL_DISK
+  confirmButtonLabel: null,
+  confirmButtonAction: null
 };
 
 export default (state = initialModal, action) => {
@@ -20,9 +18,6 @@ export default (state = initialModal, action) => {
     case OPEN_MODAL:
       if(!action.modal) return state;
       return Object.assign({}, state, action.modal);
-    
-    case SET_DESTINATION:
-      return Object.assign({}, state, { destination: action.destination });
     
     default:
       return state;

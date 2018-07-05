@@ -101,42 +101,39 @@ const CloseButton = styled.button`
   }
 `;
 
-const Modal = ({ visible, title, content, closeButton, cancelButton, confirmButton, buttonAction, close }) => {
-  return visible ? (
-    <Overlay>
-      <Content>
-        { closeButton && <CloseButton onClick={ close.bind(this) }></CloseButton> }
-        <Head><h1>{ title }</h1></Head>
-        <Body>{ content }</Body>
-        { 
-          confirmButton && 
-          <Footer>
-            <Button>{ confirmButton }</Button>
-            { cancelButton && <Button text onClick={ close.bind(this) }>Anuluj</Button> }
-          </Footer>
-        }
-      </Content>
-    </Overlay>
-  ) : null;
-};
+class Modal extends React.Component {
+  closeModal(){
+    const { dispatch } = this.props;
+    dispatch(closeModal());
+  }
 
-const mapStateToProps = state => {
-  const { visible, title, content, closeButton, cancelButton, confirmButton, buttonAction } = state.modal;
-  return {
-    visible,
-    title,
-    content,
-    closeButton,
-    cancelButton,
-    confirmButton,
-    buttonAction
+  render() {
+    const { visible, title, content, closeButton, cancelButton, confirmButtonLabel, confirmButtonAction } = this.props.modal;
+
+    return visible ? (
+      <Overlay>
+        <Content>
+          { closeButton && <CloseButton onClick={ this.closeModal.bind(this) }></CloseButton> }
+          <Head><h1>{ title }</h1></Head>
+          <Body>{ React.createElement(content) }</Body>
+          { 
+            confirmButtonLabel && 
+            <Footer>
+              <Button onClick={ confirmButtonAction }>{ confirmButtonLabel }</Button>
+              { cancelButton && <Button text onClick={ this.closeModal.bind(this) }>Anuluj</Button> }
+            </Footer>
+          }
+        </Content>
+      </Overlay>
+    ) : null;
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  close: () => {
-    dispatch(closeModal());
+const mapStateToProps = state => {
+  const { modal } = state;
+  return {
+    modal
   }
-});
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Modal);
+export default connect(mapStateToProps)(Modal);
