@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 
 import room from './reducers/room';
 import document from './reducers/document';
+import drive from './reducers/drive';
 import members from './reducers/members';
 import user from './reducers/user';
 import modal from './reducers/modal';
@@ -12,6 +13,7 @@ import elements from './reducers/elements';
 const reducers = {
   room,
   document,
+  drive,
   members,
   user,
   modal,
