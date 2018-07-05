@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { socket } from './socket';
 
 import { Provider, connect } from 'react-redux'
-import { createStore } from 'redux'
 import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom';
 
 import store from './store/store';
