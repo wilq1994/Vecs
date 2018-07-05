@@ -1,6 +1,7 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
+import room from './reducers/room';
 import document from './reducers/document';
 import members from './reducers/members';
 import user from './reducers/user';
@@ -9,6 +10,7 @@ import toolbar from './reducers/toolbar';
 import elements from './reducers/elements';
 
 const reducers = {
+  room,
   document,
   members,
   user,
