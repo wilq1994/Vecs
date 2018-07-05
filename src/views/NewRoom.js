@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { setDocumentName } from '../store/actions/document';
+import { setRoomName } from '../store/actions/room';
 
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -67,9 +67,11 @@ export class NewRoom extends Component {
   }
 
   createRoom(event){
+    const { dispatch, history } = this.props;
     event.preventDefault();
-    this.props.dispatch(setDocumentName(this.state.name));
-    this.props.history.push('/new');
+
+    dispatch(setRoomName(this.state.name));
+    history.push('/new');
   }
 
   render() {
