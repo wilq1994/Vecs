@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { setDestination, LOCAL_DISK, GOOGLE_DRIVE } from '../../store/actions/modal';
+import { setDocumentDestination, LOCAL_DISK, GOOGLE_DRIVE } from '../../store/actions/document';
 
 const Picker = styled.div`
   display: flex;
@@ -54,9 +54,9 @@ const Button = styled.button`
 `;
 
 class ChooseDestinationModal extends React.Component {
-  setDestination(destination){
+  setDocumentDestination(destination){
     const { dispatch } = this.props;
-    dispatch(setDestination(destination));
+    dispatch(setDocumentDestination(destination));
   }
 
   render() {
@@ -64,16 +64,16 @@ class ChooseDestinationModal extends React.Component {
     
     return (
       <Picker>
-        <Button onClick={ this.setDestination.bind(this, LOCAL_DISK) } checked={ destination === LOCAL_DISK }><span>Dysk lokalny</span></Button>
-        <Button onClick={ this.setDestination.bind(this, GOOGLE_DRIVE) } checked={ destination === GOOGLE_DRIVE }><span>Google drive</span></Button>
+        <Button onClick={ this.setDocumentDestination.bind(this, LOCAL_DISK) } checked={ destination === LOCAL_DISK }><span>Dysk lokalny</span></Button>
+        <Button onClick={ this.setDocumentDestination.bind(this, GOOGLE_DRIVE) } checked={ destination === GOOGLE_DRIVE }><span>Google drive</span></Button>
       </Picker>
     )
   }
 }
 
-const mapStateToProps = ({ modal }) => (
+const mapStateToProps = ({ document }) => (
   {
-    destination: modal.destination
+    destination: document.destination
   }
 )
 
