@@ -1,35 +1,14 @@
-export const CREATE_DOCUMENT = 'CREATE_DOCUMENT';
-export const DOCUMENT_CREATED = 'DOCUMENT_CREATED';
-export const SET_DOCUMENT_NAME = 'SET_DOCUMENT_NAME';
 export const SET_DOCUMENT_DIMENSIONS = 'SET_DOCUMENT_DIMENSIONS';
-export const NEW_FILE = 'NEW_FILE';
-export const LOAD_FILE = 'LOAD_FILE';
-export const SAVE_AS_PNG = 'SAVE_AS_PNG';
-export const SAVE_AS_SVG = 'SAVE_AS_SVG';
-export const SAVE_TO_CLOUD = 'SAVE_TO_CLOUD';
-export const SET_GOOGLE_TOKEN = 'SET_GOOGLE_TOKEN';
+export const NEW_DOCUMENT = 'NEW_DOCUMENT';
+export const LOAD_DOCUMENT = 'LOAD_DOCUMENT';
+export const SET_DOCUMENT_BACKGROUND = 'SET_DOCUMENT_BACKGROUND';
+export const SET_DOCUMENT_MINIFICATION = 'SET_DOCUMENT_MINIFICATION';
+export const SET_DOCUMENT_DESTINATION = 'SET_DOCUMENT_DESTINATION';
 
+// Destinations
+export const LOCAL_DISK = 'LOCAL_DISK';
+export const GOOGLE_DRIVE = 'GOOGLE_DRIVE';
 
-export function createDocument(name){
-  return {
-    type: CREATE_DOCUMENT,
-    name
-  }
-}
-
-export function documentCreated(document){
-  return {
-    type: DOCUMENT_CREATED,
-    document
-  }
-}
-
-export function setDocumentName(name) {
-  return {
-    type: SET_DOCUMENT_NAME,
-    name
-  }
-}
 
 export function setDocumentDimensions(width, height) {
   return {
@@ -39,46 +18,38 @@ export function setDocumentDimensions(width, height) {
   }
 }
 
-export function newFile(width, height) {
+export function newDocument(width, height) {
   return {
-    type: NEW_FILE,
+    type: NEW_DOCUMENT,
     width,
     height
   }
 }
 
-export function loadFile(file) {
+export function loadDocument(document) {
   return {
-    type: LOAD_FILE,
-    file
+    type: LOAD_DOCUMENT,
+    document
   }
 }
 
-export function saveAsPNG(background){
+export function setDocumentBackground(background) {
   return {
-    type: SAVE_AS_PNG,
+    type: SET_DOCUMENT_BACKGROUND,
     background
   }
 }
 
-export function saveAsSVG(minification, seperateStyles){
+export function setDocumentMinification(minification) {
   return {
-    type: SAVE_AS_SVG,
-    minification,
-    seperateStyles
+    type: SET_DOCUMENT_MINIFICATION,
+    minification
   }
 }
 
-export function saveToCloud(token){
+export function setDocumentDestination(destination){
   return {
-    type: SAVE_TO_CLOUD,
-    token
-  }
-}
-
-export function setGoogleToken(googleToken){
-  return {
-    type: SET_GOOGLE_TOKEN,
-    googleToken
+    type: SET_DOCUMENT_DESTINATION,
+    destination
   }
 }
